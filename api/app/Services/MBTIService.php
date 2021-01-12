@@ -49,6 +49,8 @@ class MBTIService
             'JP' => []
         ];
 
+        $scores = [];
+
         foreach ($data as $data) {
             $scores_list[$data['dimension']][] = $this->getScore($data);
         }
@@ -58,6 +60,8 @@ class MBTIService
         foreach ($scores_list as $dimension => $scores) {
             $average = array_sum($scores) / count($scores);
             $mbti .= ($average <= 4) ? $dimension[0] : $dimension[1];
+
+            $scores[$dimension] = $average;
         }
 
         return [
