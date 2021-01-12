@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\MBTI;
 use App\Models\Question;
+use App\Models\Response;
 use App\Services\MBTIService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -37,6 +38,21 @@ class MBTITest extends TestCase
         $this->assertEquals('ESTP', $this->service->calculateMBTI($caseH)['mbti']);
     }
 
+    /** @test */
+    public function mbti_readings_are_stored()
+    {
+        $data = [
+            'email' => 'user@shift.com',
+            'responses' => $this->buildDataFromTestCase('caseA')
+        ];
+
+        $mbti = $this->service->store($data)['mbti'];
+
+        $this->assertEquals(1, MBTI::count());
+        $this->assertEquals('ENTP', $mbti->mbti);
+        $this->assertEquals(Question::count(), Response::count());
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -53,6 +69,13 @@ class MBTITest extends TestCase
         ];
     }
 
+    /**
+     * Using the test case responses, build data that is compatible with
+     * how user responses are expected from the frontend
+     *
+     * @param string $case Test case to use
+     * @return array
+     */
     private function buildDataFromTestCase($case): array
     {
         $test_data = $this->test_data[$case];
