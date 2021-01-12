@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Score extends Eloquent
+class Response extends Eloquent
 {
     protected $table = 'responses';
+
+    protected $guarded = ['id'];
 
     public function mbti()
     {
