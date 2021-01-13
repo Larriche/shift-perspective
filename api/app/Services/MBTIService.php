@@ -57,12 +57,14 @@ class MBTIService
 
         $mbti = '';
 
-        foreach ($scores_list as $dimension => $scores) {
-            $average = array_sum($scores) / count($scores);
+        foreach ($scores_list as $dimension => $dimension_scores) {
+            $average = array_sum($dimension_scores) / count($dimension_scores);
             $mbti .= ($average <= 4) ? $dimension[0] : $dimension[1];
 
             $scores[$dimension] = $average;
         }
+
+        logger($scores);
 
         return [
             'mbti' => $mbti,
