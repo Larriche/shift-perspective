@@ -15,11 +15,19 @@ class MBTIService
     public function store($data)
     {
         $mbti_scores = $this->calculateMBTI($data['responses']);
-
-        $mbti = MBTI::create([
+        $creation_data = [
             'email' => $data['email'],
             'mbti' => $mbti_scores['mbti']
-        ]);
+        ];
+
+        // Overwrite response filled in previous times by user with that email
+        $mbti = MBTI::where('email', $data['email'])->first();
+
+        if ($mbti) {
+            $mbti->delete();
+        }
+
+        $mbti = MBTI::create($creation_data);
 
         foreach ($data['responses'] as $response) {
             $mbti->responses()->create([
@@ -63,8 +71,6 @@ class MBTIService
 
             $scores[$dimension] = $average;
         }
-
-        logger($scores);
 
         return [
             'mbti' => $mbti,

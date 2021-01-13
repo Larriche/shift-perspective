@@ -17,6 +17,7 @@ class CreateMbtisTable extends Migration
             $table->id();
             $table->string('email');
             $table->string('mbti');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
