@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MBTIController;
+use App\Http\Controllers\QuestionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,5 @@ use App\Http\Controllers\MBTIController;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
-});
-
 Route::post('/mbti', [ MBTIController::class, 'store' ]);
+Route::get('/questions', [ QuestionsController::class, 'index' ]);
