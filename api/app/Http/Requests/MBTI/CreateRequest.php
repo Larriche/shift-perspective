@@ -33,4 +33,12 @@ class CreateRequest extends ApiRequest
             'responses.*.direction' => 'required|in:1,-1'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'responses.min' => 'Responses must be provided for each question',
+            'responses.max' => 'Responses must be provided for each question'
+        ];
+    }
 }
