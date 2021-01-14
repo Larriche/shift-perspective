@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Tests\TestCase;
+use App\Services\MBTIService;
 use Tests\FakesMBTIResponses;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -49,10 +51,30 @@ class MBTITest extends TestCase
             ->assertJsonFragment(['mbti' => 'ENTP']);
     }
 
+    /** @test */
+    public function mbti_profile_of_a_logged_in_user_can_be_viewed()
+    {
+        $user = User::first();
+
+        $data = [
+            'email' => $user->email,
+            'responses' => $this->buildDataFromTestCase('caseA')
+        ];
+
+        $mbti = $this->service->store($data)['mbti'];
+
+        $this->actingAs($user)
+            ->getJson('/api/mbti_profile')
+            ->assertStatus(200)
+            ->assertJsonFragment(['email' => $user->email])
+            ->assertJsonFragment(['mbti' => 'ENTP']);
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->artisan("db:seed");
         $this->setFakeResponses();
+        $this->service = new MBTIService();
     }
 }
