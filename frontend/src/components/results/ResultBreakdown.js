@@ -19,11 +19,11 @@ function ResultBreakdown(props) {
         }
     }
 
-    function getLeftClass() {
+    function getLeftBarClass() {
         return props.score <= medianScore ? 'Coloured' : 'Blank';
     }
 
-    function getRightClass() {
+    function getRightBarClass() {
         return props.score > medianScore ? 'Coloured' : 'Blank';
     }
 
@@ -32,8 +32,8 @@ function ResultBreakdown(props) {
             <td>{getFullForm(props.dimension[0], props.dimension)}</td>
             <td>
                 <ul className="ResultBar">
-                    <li className={getLeftClass()}></li>
-                    <li className={getRightClass()}></li>
+                    <li className={getLeftBarClass()}></li>
+                    <li className={getRightBarClass()}></li>
                 </ul>
             </td>
             <td>{getFullForm(props.dimension[1], props.dimension)}</td>

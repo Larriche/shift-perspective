@@ -22,6 +22,11 @@ class App extends Component {
     this.displayErrorMessages = this.displayErrorMessages.bind(this);
   }
 
+  /**
+   * Validate form, confirm submission and submit form
+   *
+   * @return {Undefined}
+   */
   submitForm() {
     let responsesValidated = this.validateResponses();
 
@@ -57,6 +62,11 @@ class App extends Component {
     }
   }
 
+  /**
+   * Make request to save responses and calculate MBTI
+   *
+   * @return {Undefined}
+   */
   saveResponses() {
     let status = null;
 
@@ -72,49 +82,61 @@ class App extends Component {
     })
     .then(res => {
       status = res.status;
-      return res.json()
+
+      if (status !== 500) {
+        return res.json();
+      }
     })
     .then(res => {
       if (status === 201) {
         this.setState(state => {
           return {
-            email: state.email,
-            responses: state.responses,
-            questions: state.questions,
+            ...state,
             results: res
           }
         })
-      } else {
-        if (status === 422) {
+      } else if (status === 422) {
           this.displayErrorMessages(res.errors);
-        }
+      } else {
+        swal({
+          title: "Unknown Error",
+          text: "Your responses could not be saved",
+          icon: "error",
+          dangerMode: true,
+        })
       }
     })
   }
 
+  /**
+   * Reload page for another response to be taken
+   *
+   * @return {Undefined}
+   */
   refreshForm() {
     window.location.reload();
   }
 
-  componentDidMount() {
-    fetch('http://localhost:8000/api/questions')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ questions: data })
-      })
-      .catch(error => console.log(error))
-  }
-
+  /**
+   * Set the user's email in the state
+   *
+   * @param {Object} event
+   */
   emailChangeHandler(event) {
     this.setState(state => {
       return {
-        email: event.target.value,
-        responses: state.responses,
-        questions: state.questions
+        ...state,
+        email: event.target.value
       }
     })
   }
 
+  /**
+   * Update a response selected by the user
+   *
+   * @param {Object} question Question response is selected for
+   * @param {Integer} choice The selected choice
+   */
   recordAnswer(question, choice) {
     this.setState(state => {
       let responses = state.responses;
@@ -130,13 +152,17 @@ class App extends Component {
       responses[question.id]['choice'] = choice;
 
       return {
-        questions: state.questions,
-        email: state.email,
+        ...state,
         responses
       };
     })
   }
 
+  /**
+   * Check that each question has an associated answer in our set of responses
+   *
+   * @return {Boolean}
+   */
   validateResponses() {
     for (let question of this.state.questions) {
       if (!this.state.responses[question.id]) {
@@ -147,6 +173,12 @@ class App extends Component {
     return true;
   }
 
+  /**
+   * Display form validation errors gotten from the API
+   *
+   * @param {Object} errors Errors as gotten from the server
+   * @return {Undefined}
+   */
   displayErrorMessages(errors) {
     let errorsMessage = '';
 
@@ -162,6 +194,32 @@ class App extends Component {
       icon: "error",
       dangerMode: true
     })
+  }
+
+  componentDidMount() {
+    let status = null;
+
+    fetch('http://localhost:8000/api/questions')
+      .then(res => {
+        status = res.status;
+
+        if (status === 200) {
+          return res.json();
+        }
+      })
+      .then(data => {
+        if (status === 200) {
+          this.setState({ questions: data });
+        } else {
+          swal({
+            title: "Unknown Error",
+            text: "Loading questions failed",
+            icon: "error",
+            dangerMode: true,
+          })
+        }
+      })
+      .catch(error => console.log(error));
   }
 
   render() {
@@ -181,7 +239,7 @@ class App extends Component {
         </section>
 
         <section className="ButtonDiv">
-          <button onClick={this.saveResponses}>Save and Continue</button>
+          <button onClick={this.submitForm}>Save and Continue</button>
         </section>
       </section>) : (
         <section>
