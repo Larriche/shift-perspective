@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MBTIController;
+use App\Http\Controllers\ResponsesController;
 use App\Http\Controllers\QuestionsController;
+use App\Http\Controllers\Auth\ApiLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +20,11 @@ use App\Http\Controllers\QuestionsController;
 
 Route::post('/mbti', [ MBTIController::class, 'store' ]);
 Route::get('/questions', [ QuestionsController::class, 'index' ]);
+
+Route::post('login', Auth\ApiLoginController::class);
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    // Protected using sanctum API auth tokens
+    Route::get('mbti_profile', [ MBTIController::class, 'getUserMBTIProfile']);
+    Route::get('responses', [ ResponsesController::class, 'index' ]);
+});

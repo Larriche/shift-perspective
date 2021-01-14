@@ -14,7 +14,7 @@ class QuestionsTableSeeder extends Seeder
         $filename = storage_path('/app/questions.csv');
         $file = fopen($filename, "r");
 
-        while (($data = fgetcsv($file, 200, ",")) !== false) {
+        while (($data = fgetcsv($file)) !== false) {
             DB::table('questions')->insert([
                 'question' => $data[0],
                 'dimension' => $data[1],
