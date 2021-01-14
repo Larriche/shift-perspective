@@ -60,7 +60,7 @@ class App extends Component {
   saveResponses() {
     let status = null;
 
-    fetch('http://127.0.0.1:8000/api/mbti', {
+    fetch('http://localhost:8000/api/mbti', {
       method: 'POST',
       body: JSON.stringify({
         responses: Object.values(this.state.responses),
@@ -97,7 +97,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://127.0.0.1:8000/api/questions')
+    fetch('http://localhost:8000/api/questions')
       .then(res => res.json())
       .then(data => {
         this.setState({ questions: data })
