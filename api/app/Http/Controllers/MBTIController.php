@@ -16,10 +16,20 @@ class MBTIController extends Controller
     /**
      * Calculate and save mbti scores from user responses
      *
-     * @return void
+     * @return Illuminate\Http\Response
      */
     public function store(CreateRequest $request)
     {
         return response()->json($this->service->store($request->all()), Response::HTTP_CREATED);
+    }
+
+    /**
+     * Get the MBTI details of currently authenticated user by looking up using his email
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function getUserMBTIProfile()
+    {
+        return $this->service->getUserMBTIProfile();
     }
 }

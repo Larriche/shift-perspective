@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Auth;
 use App\Models\MBTI;
 
 class MBTIService
@@ -40,6 +41,18 @@ class MBTIService
             'mbti' => $mbti,
             'scores' => $mbti_scores['scores']
         ];
+    }
+
+    /**
+     * Get the mbti details for the currently authenticated user
+     *
+     * @return object
+     */
+    public function getUserMBTIProfile(): ?object
+    {
+        $user = Auth::user();
+
+        return MBTI::where('email', $user->email)->with('responses')->first();
     }
 
     /**
