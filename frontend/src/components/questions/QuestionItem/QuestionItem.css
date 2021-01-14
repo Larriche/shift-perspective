@@ -1,0 +1,22 @@
+.QuestionCard {
+    padding: 10px;
+    border: 1px solid #E5E5E5;
+    text-align: center;
+}
+
+.QuestionControls ul {
+    list-style-type: none;
+}
+
+.QuestionControls li {
+    display: inline;
+    margin-right: 5px;
+}
+
+.Agree {
+    color: #A0DBCD;
+}
+
+.Disagree {
+    color: #F94344;
+}

@@ -1,0 +1,52 @@
+.ResultBar {
+    list-style-type: none;
+}
+
+.ResultBar li{
+    display: inline;
+    padding: 4px 80px;
+}
+
+.ResultBar > :first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;;
+}
+
+.ResultBar > :last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-right: 5px;
+}
+
+.ResultBar li.Coloured {
+    background: #A921CB;
+}
+
+.ResultBar li.Blank {
+    background: #E9ECEF;
+}
+
+#results {
+    margin-left: 20%;
+    margin-right: 20%;
+    padding: 20px;
+    border: 1px solid #E5E5E5;
+}
+
+#results-summary {
+    float: left;
+    margin-top: 20px;
+}
+
+#results-breakdown {
+    float: right;
+}
+
+#results h3 {
+    color: #113264;
+    font-size: 1.5em;
+}
+
+.clearfix {
+    clear: both;
+}
