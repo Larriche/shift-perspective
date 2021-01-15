@@ -9,7 +9,7 @@ class ResponsesService
     /**
      * Get a listing of questions
      *
-     * @param $query_data
+     * @param $query_data Params for filtering data
      * @return \Illuminate\Database\Eloquent\Collection List of responses
      */
     public function index($query_data)

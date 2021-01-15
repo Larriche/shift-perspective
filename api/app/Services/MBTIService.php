@@ -11,9 +11,9 @@ class MBTIService
      * Store the MBTI score and the actual responses of a user
      *
      * @param array $data
-     * @return void
+     * @return array MBTI record and scores
      */
-    public function store($data)
+    public function store($data): array
     {
         $mbti_scores = $this->calculateMBTI($data['responses']);
         $creation_data = [

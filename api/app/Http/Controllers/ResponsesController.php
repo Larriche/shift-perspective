@@ -16,7 +16,7 @@ class ResponsesController extends Controller
     /**
      * Get a list of individual responses
      *
-     * @param
+     * @param \Illuminate\Http\Request $request Request object
      * @return void
      */
     public function index(Request $request)
