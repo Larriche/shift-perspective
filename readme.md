@@ -20,6 +20,9 @@ docker-compose up
 ```
 
 Copy the contents of api/.env.example to api/.env.
+```
+cp api/.env.example api/.env
+```
 
 Run the following commands to set up the laravel backend,
 ```
